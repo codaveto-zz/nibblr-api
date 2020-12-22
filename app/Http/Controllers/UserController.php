@@ -48,7 +48,7 @@ class UserController extends Controller {
         if ( $user != null ) {
             return response( $user );
         }
-        throw new NotFoundHttpException( 'User not found' );
+        throw new NotFoundHttpException( 'User not found.' );
     }
 
     public function update( Request $request, $id ) {
@@ -58,6 +58,6 @@ class UserController extends Controller {
 
             return response( $user );
         }
-        throw new NotFoundHttpException( 'User not found' );
+        throw new NotFoundHttpException( 'User not found.' );
     }
 }

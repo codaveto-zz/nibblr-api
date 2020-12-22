@@ -44,6 +44,8 @@ use Laravel\Passport\Token;
  * @method static Builder|User wherePassword($value)
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
+ * @property-read Collection|DinnerInvite[] $dinnerInvites
+ * @property-read int|null $dinner_invites_count
  * @mixin Builder
  */
 class User extends Authenticatable

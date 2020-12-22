@@ -53,7 +53,7 @@ class DinnerController extends Controller {
         if ( $dinner != null ) {
             return response( $dinner );
         }
-        throw new NotFoundHttpException( 'Dinner not found' );
+        throw new NotFoundHttpException( 'Dinner not found.' );
     }
 
     /**
@@ -71,7 +71,7 @@ class DinnerController extends Controller {
 
             return response( $dinner );
         }
-        throw new NotFoundHttpException( 'Dinner not found' );
+        throw new NotFoundHttpException( 'Dinner not found.' );
     }
 
     /**
@@ -86,7 +86,9 @@ class DinnerController extends Controller {
         if ( $dinner != null ) {
             return response( Dinner::destroy( $id ) );
         }
-        throw new NotFoundHttpException( 'Dinner not found' );
+        throw new NotFoundHttpException( 'Dinner not found.' );
     }
+
+
 
 }

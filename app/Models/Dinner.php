@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -31,6 +32,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Dinner whereTitle($value)
  * @method static Builder|Dinner whereUpdatedAt($value)
  * @method static Builder|Dinner whereUserId($value)
+ * @property-read Collection|DinnerInvite[] $dinnerInvites
+ * @property-read int|null $dinner_invites_count
  * @mixin Builder
  */
 class Dinner extends Model
