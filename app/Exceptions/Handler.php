@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Handler extends ExceptionHandler
-{
+class Handler extends ExceptionHandler {
     /**
      * A list of the exception types that are not reported.
      *
@@ -31,10 +33,33 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
-    {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+    public function register() {
+        $this->renderable( function ( ValidationException $e, $request ) {
+            $code = 422;
+            return response( [
+                'status'  => 'failed',
+                'code'=> $code,
+                'message' => 'One or more fields failed validation.',
+                'errors'  => $e->errors()
+            ], $code );
+        } );
+        $this->renderable( function ( AuthenticationException $e, $request ) {
+            $code = 401;
+            return response( [
+                'status'  => 'failed',
+                'code'=> $code,
+                'message' => $e->getMessage(),
+                'errors'  => []
+            ], $code );
+        } );
+        $this->renderable( function ( NotFoundHttpException $e, $request ) {
+            $code = 404;
+            return response( [
+                'status'  => 'failed',
+                'code'=> $code,
+                'message' => $e->getMessage(),
+                'errors'  => []
+            ], $code );
+        } );
     }
 }
