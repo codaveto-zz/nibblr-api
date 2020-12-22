@@ -8,16 +8,21 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller {
 
     public function create( Request $request ) {
         $validRequest = $this->isValidCreate( $request );
-        $user         = ( new User )->create( $validRequest );
+        $user         = ( new User )->fill( [
+            'name'     => $validRequest['name'],
+            'email'    => $validRequest['email'],
+            'password' => Hash::make( $validRequest['password'] )
+        ] );
         $accessToken  = $user->createToken( 'authToken' )->accessToken;
-
-        return response( [ 'status' => 'success', 'user' => $user, 'access_token' => $accessToken ] , 201);
+        $user->save();
+        return response( [ 'status' => 'success', 'user' => $user, 'access_token' => $accessToken ], 201 );
     }
 
     private function isValidCreate( Request $request ): array {
