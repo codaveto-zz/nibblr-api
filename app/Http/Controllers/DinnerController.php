@@ -49,7 +49,11 @@ class DinnerController extends Controller {
      * @return Response
      */
     public function show( $id ) {
-        return response( ( new Dinner )->find( $id ) );
+        $dinner = ( new Dinner )->find( $id );
+        if ( $dinner != null ) {
+            return response( $dinner );
+        }
+        throw new NotFoundHttpException( 'Dinner not found' );
     }
 
     /**
@@ -62,9 +66,12 @@ class DinnerController extends Controller {
      */
     public function update( Request $request, $id ) {
         $dinner = ( new Dinner )->find( $id );
-        $dinner->update( $request->all() );
+        if ( $dinner != null ) {
+            $dinner->update( $request->all() );
 
-        return response( $dinner );
+            return response( $dinner );
+        }
+        throw new NotFoundHttpException( 'Dinner not found' );
     }
 
     /**
@@ -75,6 +82,11 @@ class DinnerController extends Controller {
      * @return Response
      */
     public function destroy( $id ) {
-        return response( Dinner::destroy( $id ) );
+        $dinner = ( new Dinner )->find( $id );
+        if ( $dinner != null ) {
+            return response( Dinner::destroy( $id ) );
+        }
+        throw new NotFoundHttpException( 'Dinner not found' );
     }
+
 }
