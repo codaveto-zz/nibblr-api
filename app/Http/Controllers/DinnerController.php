@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dinner;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DinnerController extends Controller {
     /**
@@ -13,7 +14,11 @@ class DinnerController extends Controller {
      * @return Response
      */
     public function index() {
-        return response( Dinner::all() );
+        $dinners = Dinner::all();
+        if ( $dinners->isNotEmpty() ) {
+            return response( Dinner::all() );
+        }
+        throw new NotFoundHttpException( 'No dinners found.' );
     }
 
     /**
@@ -31,8 +36,9 @@ class DinnerController extends Controller {
             'start_time'  => 'after:now|date',
             'end_time'    => 'after:start_time|date'
         ] );
+        $userId    = auth( 'api' )->user()->id;
 
-        return response( ( new Dinner )->create( $request->all() ) );
+        return response( ( new Dinner )->create( array_merge( $request->all(), [ 'user_id' => $userId ] ) ) );
     }
 
     /**
