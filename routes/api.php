@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DinnerController;
+use App\Http\Controllers\DinnerInviteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,6 @@ Route::prefix( 'user' )->group( function () {
 
 Route::middleware( 'auth:api' )->group( function () {
     Route::apiResource( '/dinner', DinnerController::class );
+    Route::post( '/dinner/{dinnerId}/join', [ DinnerInviteController::class, 'joinDinner'] );
+    Route::get( '/dinner/{dinnerId}/users', [ DinnerInviteController::class, 'getAllUsers'] );
 } );

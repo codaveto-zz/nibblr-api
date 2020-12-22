@@ -23,28 +23,32 @@ use Illuminate\Support\Carbon;
  * @method static Builder|DinnerInvite newModelQuery()
  * @method static Builder|DinnerInvite newQuery()
  * @method static Builder|DinnerInvite query()
- * @method static Builder|DinnerInvite whereCreatedAt($value)
- * @method static Builder|DinnerInvite whereDinnerId($value)
- * @method static Builder|DinnerInvite whereId($value)
- * @method static Builder|DinnerInvite whereUpdatedAt($value)
- * @method static Builder|DinnerInvite whereUserId($value)
+ * @method static Builder|DinnerInvite whereCreatedAt( $value )
+ * @method static Builder|DinnerInvite whereDinnerId( $value )
+ * @method static Builder|DinnerInvite whereId( $value )
+ * @method static Builder|DinnerInvite whereUpdatedAt( $value )
+ * @method static Builder|DinnerInvite whereUserId( $value )
  * @mixin Builder
  */
-class DinnerInvite extends Model
-{
+class DinnerInvite extends Model {
     use HasFactory;
 
-    public function users()
-    {
-        return $this->morphedByMany(User::class, 'inviteable');
+    protected $fillable = [
+        'user_id',
+        'dinner_id'
+    ];
+
+    protected $casts = [
+        'user_id'   => 'integer',
+        'dinner_id' => 'integer',
+    ];
+
+    public function users() {
+        return $this->morphedByMany( User::class, 'dinner_invites' );
     }
 
-    /**
-     * Get all of the videos that are assigned this tag.
-     */
-    public function dinners()
-    {
-        return $this->morphedByMany(Dinner::class, 'inviteable');
+    public function dinners() {
+        return $this->morphedByMany( Dinner::class, 'dinner_invites' );
     }
 
 }

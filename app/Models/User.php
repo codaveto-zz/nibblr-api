@@ -82,9 +82,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function dinnerInvites()
+    public function dinners()
     {
-        return $this->morphToMany(DinnerInvite::class, 'inviteable');
+        return $this->belongsToMany(Dinner::class, 'dinner_invites', 'user_id', 'dinner_id');
     }
 
 }

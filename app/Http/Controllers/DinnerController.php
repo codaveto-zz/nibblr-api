@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dinner;
+use App\Models\DinnerInvite;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,9 +18,9 @@ class DinnerController extends Controller {
      * @return Response
      */
     public function index() {
-        $dinners = Dinner::all();
+        $dinners = ( new Dinner )->whereDate( 'start_time', '>', Carbon::now() )->get();
         if ( $dinners->isNotEmpty() ) {
-            return response( Dinner::all() );
+            return response( $dinners );
         }
         throw new NotFoundHttpException( 'No dinners found.' );
     }
@@ -37,8 +41,7 @@ class DinnerController extends Controller {
             'end_time'    => 'after:start_time|date'
         ] );
         $userId    = auth( 'api' )->user()->id;
-
-        return response( ( new Dinner )->create( array_merge( $request->all(), [ 'user_id' => $userId ] ) ) );
+        return response( ( new Dinner )->create( array_merge( $request->all(), [ 'user_id' => $userId ] ) ), 201 );
     }
 
     /**
@@ -49,11 +52,20 @@ class DinnerController extends Controller {
      * @return Response
      */
     public function show( $id ) {
-        $dinner = ( new Dinner )->find( $id );
+        $dinner = $this->findDinner( $id );
         if ( $dinner != null ) {
             return response( $dinner );
         }
         throw new NotFoundHttpException( 'Dinner not found.' );
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Dinner|Dinner[]|Collection|Model|null
+     */
+    private function findDinner( $id ) {
+        return ( new Dinner )->find( $id );
     }
 
     /**
@@ -65,7 +77,7 @@ class DinnerController extends Controller {
      * @return Response
      */
     public function update( Request $request, $id ) {
-        $dinner = ( new Dinner )->find( $id );
+        $dinner = $this->findDinner( $id );
         if ( $dinner != null ) {
             $dinner->update( $request->all() );
 
@@ -82,13 +94,11 @@ class DinnerController extends Controller {
      * @return Response
      */
     public function destroy( $id ) {
-        $dinner = ( new Dinner )->find( $id );
+        $dinner = $this->findDinner( $id );
         if ( $dinner != null ) {
             return response( Dinner::destroy( $id ) );
         }
         throw new NotFoundHttpException( 'Dinner not found.' );
     }
-
-
 
 }

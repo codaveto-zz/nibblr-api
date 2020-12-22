@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -15,7 +17,7 @@ class UserController extends Controller {
         $user         = ( new User )->create( $validRequest );
         $accessToken  = $user->createToken( 'authToken' )->accessToken;
 
-        return response( [ 'status' => 'success', 'user' => $user, 'access_token' => $accessToken ] );
+        return response( [ 'status' => 'success', 'user' => $user, 'access_token' => $accessToken ] , 201);
     }
 
     private function isValidCreate( Request $request ): array {
@@ -44,15 +46,24 @@ class UserController extends Controller {
     }
 
     public function show( $id ) {
-        $user = ( new User )->find( $id );
+        $user = $this->findUser( $id );
         if ( $user != null ) {
             return response( $user );
         }
         throw new NotFoundHttpException( 'User not found.' );
     }
 
+    /**
+     * @param $id
+     *
+     * @return User|User[]|Collection|Model|null
+     */
+    private function findUser( $id ) {
+        return ( new User )->find( $id );
+    }
+
     public function update( Request $request, $id ) {
-        $user = ( new User )->find( $id );
+        $user = $this->findUser( $id );
         if ( $user != null ) {
             $user->update( $request->all() );
 

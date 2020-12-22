@@ -23,21 +23,20 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Dinner newModelQuery()
  * @method static Builder|Dinner newQuery()
  * @method static Builder|Dinner query()
- * @method static Builder|Dinner whereCreatedAt($value)
- * @method static Builder|Dinner whereDescription($value)
- * @method static Builder|Dinner whereEndTime($value)
- * @method static Builder|Dinner whereId($value)
- * @method static Builder|Dinner whereMaxGuests($value)
- * @method static Builder|Dinner whereStartTime($value)
- * @method static Builder|Dinner whereTitle($value)
- * @method static Builder|Dinner whereUpdatedAt($value)
- * @method static Builder|Dinner whereUserId($value)
+ * @method static Builder|Dinner whereCreatedAt( $value )
+ * @method static Builder|Dinner whereDescription( $value )
+ * @method static Builder|Dinner whereEndTime( $value )
+ * @method static Builder|Dinner whereId( $value )
+ * @method static Builder|Dinner whereMaxGuests( $value )
+ * @method static Builder|Dinner whereStartTime( $value )
+ * @method static Builder|Dinner whereTitle( $value )
+ * @method static Builder|Dinner whereUpdatedAt( $value )
+ * @method static Builder|Dinner whereUserId( $value )
  * @property-read Collection|DinnerInvite[] $dinnerInvites
  * @property-read int|null $dinner_invites_count
  * @mixin Builder
  */
-class Dinner extends Model
-{
+class Dinner extends Model {
 
     protected $fillable = [
         'title',
@@ -49,18 +48,17 @@ class Dinner extends Model
     ];
 
     protected $casts = [
-        'title' => 'string',
+        'title'       => 'string',
         'description' => 'string',
-        'max_guests' => 'integer',
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
-        'user_id' => 'integer',
+        'max_guests'  => 'integer',
+        'start_time'  => 'datetime',
+        'end_time'    => 'datetime',
+        'user_id'     => 'integer',
     ];
 
     use HasFactory;
 
-    public function dinnerInvites()
-    {
-        return $this->morphToMany(DinnerInvite::class, 'inviteable');
+    public function users() {
+        return $this->belongsToMany( User::class, 'dinner_invites', 'dinner_id', 'user_id');
     }
 }
