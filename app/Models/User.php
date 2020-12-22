@@ -80,4 +80,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function dinnerInvites()
+    {
+        return $this->morphToMany(DinnerInvite::class, 'inviteable');
+    }
+
 }

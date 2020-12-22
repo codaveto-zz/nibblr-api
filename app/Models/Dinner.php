@@ -55,4 +55,9 @@ class Dinner extends Model
     ];
 
     use HasFactory;
+
+    public function dinnerInvites()
+    {
+        return $this->morphToMany(DinnerInvite::class, 'inviteable');
+    }
 }
