@@ -49,7 +49,6 @@ class Handler extends ExceptionHandler {
                 'status'  => 'failed',
                 'code'=> $code,
                 'message' => $e->getMessage(),
-                'errors'  => []
             ], $code );
         } );
         $this->renderable( function ( NotFoundHttpException $e, $request ) {
@@ -58,7 +57,6 @@ class Handler extends ExceptionHandler {
                 'status'  => 'failed',
                 'code'=> $code,
                 'message' => $e->getMessage(),
-                'errors'  => []
             ], $code );
         } );
     }
