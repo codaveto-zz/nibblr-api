@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\DinnerController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::prefix( 'user' )->group( function () {
+    Route::post( '/login', [ UserController::class, 'login' ] );
+    Route::post( '/create', [ UserController::class, 'create' ] );
+    Route::middleware( 'auth:api' )->group( function () {
+        Route::get( '/{id}', [ UserController::class, 'show' ] );
+        Route::put( '/{id}', [ UserController::class, 'update' ] );
+    } );
+} );
+
+Route::middleware( 'auth:api' )->group( function () {
+    Route::apiResource( '/dinner', DinnerController::class );
+} );
