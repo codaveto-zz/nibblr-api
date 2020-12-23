@@ -5775,6 +5775,7 @@
                 "shasum": ""
             },
             "require": {
+                "ext-pdo_sqlite": "*",
                 "barryvdh/reflection-docblock": "^2.0.6",
                 "composer/composer": "^1.6 || ^2",
                 "doctrine/dbal": "~2.3",
