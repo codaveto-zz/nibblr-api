@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix( 'user' )->group( function () {
-    Route::post( '/login', [ UserController::class, 'login' ] );
-    Route::post( '/create', [ UserController::class, 'create' ] );
+    Route::post( '/loginrequest', [ UserController::class, 'login' ] );
+    Route::post( '/', [ UserController::class, 'create' ] );
     Route::middleware( 'auth:api' )->group( function () {
         Route::get( '/{id}', [ UserController::class, 'show' ] );
         Route::put( '/{id}', [ UserController::class, 'update' ] );
@@ -28,6 +28,6 @@ Route::prefix( 'user' )->group( function () {
 
 Route::middleware( 'auth:api' )->group( function () {
     Route::apiResource( '/dinner', DinnerController::class );
-    Route::post( '/dinner/{dinnerId}/join', [ DinnerInviteController::class, 'joinDinner'] );
-    Route::get( '/dinner/{dinnerId}/users', [ DinnerInviteController::class, 'getAllUsers'] );
+    Route::post( '/dinner/{dinnerId}/joinrequest', [ DinnerInviteController::class, 'joinDinner'] );
+    Route::get( '/dinner/{dinnerId}/user', [ DinnerInviteController::class, 'getAllUsers'] );
 } );

@@ -41,7 +41,7 @@ class DinnerInviteController extends Controller {
     private function sendErrorMessage( $message ) {
         $code = 409;
 
-        return response( [
+        return response()->json( [
             'status'  => 'failed',
             'code'    => $code,
             'message' => $message,

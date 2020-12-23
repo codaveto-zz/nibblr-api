@@ -20,7 +20,7 @@ class DinnerController extends Controller {
     public function index() {
         $dinners = ( new Dinner )->whereDate( 'start_time', '>', Carbon::now() )->get();
         if ( $dinners->isNotEmpty() ) {
-            return response( $dinners );
+            return response()->json( $dinners );
         }
         throw new NotFoundHttpException( 'No dinners found.' );
     }
@@ -41,7 +41,7 @@ class DinnerController extends Controller {
             'end_time'    => 'after:start_time|date'
         ] );
         $userId    = auth( 'api' )->user()->id;
-        return response( ( new Dinner )->create( array_merge( $request->all(), [ 'user_id' => $userId ] ) ), 201 );
+        return response()->json( ( new Dinner )->create( array_merge( $request->all(), [ 'user_id' => $userId ] ) ), 201 );
     }
 
     /**
@@ -54,7 +54,7 @@ class DinnerController extends Controller {
     public function show( $id ) {
         $dinner = $this->findDinner( $id );
         if ( $dinner != null ) {
-            return response( $dinner );
+            return response()->json( $dinner );
         }
         throw new NotFoundHttpException( 'Dinner not found.' );
     }
@@ -81,7 +81,7 @@ class DinnerController extends Controller {
         if ( $dinner != null ) {
             $dinner->update( $request->all() );
 
-            return response( $dinner );
+            return response()->json( $dinner );
         }
         throw new NotFoundHttpException( 'Dinner not found.' );
     }
@@ -96,7 +96,7 @@ class DinnerController extends Controller {
     public function destroy( $id ) {
         $dinner = $this->findDinner( $id );
         if ( $dinner != null ) {
-            return response( Dinner::destroy( $id ) );
+            return response()->json( Dinner::destroy( $id ) );
         }
         throw new NotFoundHttpException( 'Dinner not found.' );
     }

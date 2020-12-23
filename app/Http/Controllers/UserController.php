@@ -22,7 +22,7 @@ class UserController extends Controller {
         ] );
         $accessToken  = $user->createToken( 'authToken' )->accessToken;
         $user->save();
-        return response( [ 'status' => 'success', 'user' => $user, 'access_token' => $accessToken ], 201 );
+        return response()->json( [ 'status' => 'success', 'user' => $user, 'access_token' => $accessToken ], 201 );
     }
 
     private function isValidCreate( Request $request ): array {
@@ -37,8 +37,7 @@ class UserController extends Controller {
         $validRequest = $this->isValidLogin( $request );
         if ( Auth::attempt( $validRequest ) ) {
             $accessToken = Auth::user()->createToken( 'authToken' )->accessToken;
-
-            return response( [ 'status' => 'success', 'user' => Auth::user(), 'access_token' => $accessToken ] );
+            return response()->json()->json( [ 'status' => 'success', 'user' => Auth::user(), 'access_token' => $accessToken ] );
         }
         throw new AuthenticationException( 'Invalid login credentials.' );
     }
@@ -53,7 +52,7 @@ class UserController extends Controller {
     public function show( $id ) {
         $user = $this->findUser( $id );
         if ( $user != null ) {
-            return response( $user );
+            return response()->json( $user );
         }
         throw new NotFoundHttpException( 'User not found.' );
     }
@@ -72,7 +71,7 @@ class UserController extends Controller {
         if ( $user != null ) {
             $user->update( $request->all() );
 
-            return response( $user );
+            return response()->json( $user );
         }
         throw new NotFoundHttpException( 'User not found.' );
     }

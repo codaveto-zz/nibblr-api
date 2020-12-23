@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler {
     public function register() {
         $this->renderable( function ( ValidationException $e, $request ) {
             $code = 422;
-            return response( [
+            return response()->json( [
                 'status'  => 'failed',
                 'code'=> $code,
                 'message' => 'One or more fields failed validation.',
@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler {
         } );
         $this->renderable( function ( AuthenticationException $e, $request ) {
             $code = 401;
-            return response( [
+            return response()->json( [
                 'status'  => 'failed',
                 'code'=> $code,
                 'message' => $e->getMessage(),
@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler {
         } );
         $this->renderable( function ( NotFoundHttpException $e, $request ) {
             $code = 404;
-            return response( [
+            return response()->json( [
                 'status'  => 'failed',
                 'code'=> $code,
                 'message' => $e->getMessage(),
