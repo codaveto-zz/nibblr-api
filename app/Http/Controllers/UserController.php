@@ -37,7 +37,7 @@ class UserController extends Controller {
         $validRequest = $this->isValidLogin( $request );
         if ( Auth::attempt( $validRequest ) ) {
             $accessToken = Auth::user()->createToken( 'authToken' )->accessToken;
-            return response()->json()->json( [ 'status' => 'success', 'user' => Auth::user(), 'access_token' => $accessToken ] );
+            return response()->json( [ 'status' => 'success', 'user' => Auth::user(), 'access_token' => $accessToken ] );
         }
         throw new AuthenticationException( 'Invalid login credentials.' );
     }
