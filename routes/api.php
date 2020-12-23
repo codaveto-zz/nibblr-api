@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix( 'user' )->group( function () {
     Route::post( '/loginrequest', [ UserController::class, 'login' ] );
     Route::post( '/createrequest', [ UserController::class, 'create' ] );
-    Route::middleware( 'auth:api' )->group( function () {
+    Route::middleware( 'auth.basic:api' )->group( function () {
         Route::get( '/{id}', [ UserController::class, 'show' ] );
         Route::put( '/{id}', [ UserController::class, 'update' ] );
     } );

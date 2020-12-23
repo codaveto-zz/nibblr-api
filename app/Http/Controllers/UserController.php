@@ -20,9 +20,8 @@ class UserController extends Controller {
             'email'    => $validRequest['email'],
             'password' => Hash::make( $validRequest['password'] )
         ] );
-        $accessToken  = $user->createToken( 'authToken' )->accessToken;
         $user->save();
-        return response()->json( [ 'status' => 'success', 'user' => $user, 'access_token' => $accessToken ], 201 );
+        return response()->json( [ 'status' => 'success', 'user' => $user ], 201 );
     }
 
     private function isValidCreate( Request $request ): array {
@@ -37,7 +36,11 @@ class UserController extends Controller {
         $validRequest = $this->isValidLogin( $request );
         if ( Auth::attempt( $validRequest ) ) {
             $accessToken = Auth::user()->createToken( 'authToken' )->accessToken;
-            return response()->json( [ 'status' => 'success', 'user' => Auth::user(), 'access_token' => $accessToken ] );
+
+            return response()->json( [ 'status'       => 'success',
+                                       'user'         => Auth::user(),
+                                       'access_token' => $accessToken
+            ] );
         }
         throw new AuthenticationException( 'Invalid login credentials.' );
     }
