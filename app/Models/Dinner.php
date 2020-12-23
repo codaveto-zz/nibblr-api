@@ -35,6 +35,8 @@ use Illuminate\Support\Carbon;
  * @property-read Collection|DinnerInvite[] $dinnerInvites
  * @property-read int|null $dinner_invites_count
  * @mixin Builder
+ * @property-read Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
  */
 class Dinner extends Model {
 

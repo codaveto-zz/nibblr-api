@@ -47,6 +47,8 @@ use Laravel\Passport\Token;
  * @property-read Collection|DinnerInvite[] $dinnerInvites
  * @property-read int|null $dinner_invites_count
  * @mixin Builder
+ * @property-read Collection|\App\Models\Dinner[] $dinners
+ * @property-read int|null $dinners_count
  */
 class User extends Authenticatable
 {
