@@ -22,12 +22,13 @@ class DinnerController extends Controller {
         $validated = $request->validate( [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'max_guests'  => 'min:1|integer',
-            'start_time'  => 'after:now|date',
-            'end_time'    => 'after:start_time|date'
+            'max_guests'  => 'required|min:1|integer',
+            'start_time'  => 'required|after:now|date',
+            'end_time'    => 'required|after:start_time|date'
         ] );
         $userId    = auth( 'api' )->user()->id;
-        return response()->json( ( new Dinner )->create( array_merge( $request->all(), [ 'user_id' => $userId ] ) ), 201 );
+
+        return response()->json( ( new Dinner )->create( array_merge( $validated, [ 'user_id' => $userId ] ) ), 201 );
     }
 
     public function show( $id ) {

@@ -13,6 +13,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller {
 
+    public function index() {
+        return Auth::user();
+    }
+
     public function create( Request $request ) {
         $validRequest = $this->isValidCreate( $request );
         $user         = ( new User )->fill( [
