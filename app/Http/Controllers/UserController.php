@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserController extends Controller {
 
     public function index() {
-        return Auth::user();
+        return response()->json( auth( 'api' )->user() );
     }
 
     public function create( Request $request ) {
